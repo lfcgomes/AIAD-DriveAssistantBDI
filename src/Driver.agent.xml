@@ -58,7 +58,11 @@
 		<!-- Goal for going to a specified position. -->
 		<achievegoal name="go">
 			<parameter name="pos" class="IVector2"/>
-		</achievegoal>        
+		</achievegoal> 
+		
+		<achievegoal name="go_destination">
+			<parameter name="destination" class="IVector2"/>
+		</achievegoal> 
 
     </goals>
 	
@@ -81,6 +85,17 @@
 				<goal ref="go"/>
 			</trigger>
 		</plan>
+		
+		<plan name="go_destination">
+            <parameter name="destination" class="IVector2">
+                <goalmapping ref="go_destination.destination"/>
+            </parameter>
+            <body class="MoveToLocationPlan"/>
+            <trigger>
+                <goal ref="go_destination"/>
+            </trigger>
+        </plan>
+		
 		
     </plans>
     

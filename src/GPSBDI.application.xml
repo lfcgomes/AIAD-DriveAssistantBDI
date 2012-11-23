@@ -192,7 +192,7 @@
                             <env:property name="position">new Vector2Double(5, 5)</env:property>
                         </env:object>
                         <env:object type="finaldestination">
-                            <env:property name="position">new Vector2Double(25, 25)</env:property>
+                            <env:property name="position">new Vector2Double(29, 25)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
                     </env:objects>
