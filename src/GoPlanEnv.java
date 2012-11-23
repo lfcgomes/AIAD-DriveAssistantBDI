@@ -5,10 +5,17 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector1;
 import jadex.extension.envsupport.math.IVector2;
+import jadex.extension.envsupport.math.Vector1Double;
+import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import algorithms.PathFinder;
 import algorithms.PathFinder.Node;
@@ -29,100 +36,116 @@ public class GoPlanEnv extends Plan
 		ISpaceObject fd = env.getSpaceObjectsByType("finaldestination")[0];
 		ISpaceObject hm = env.getSpaceObjectsByType("homebase")[0];
 
-		ISpaceObject[] locations = env.getSpaceObjectsByType("pointofinterest");
-
-		System.out.println("COISO "+locations[0].getProperty("status"));
-
 		IVector2 target = (IVector2)fd.getProperty("position");
 
-		IVector2 aux = (IVector2)hm.getProperty("position");
+		IVector2 ini = (IVector2)hm.getProperty("position");
 
+		ISpaceObject[] locations = env.getSpaceObjectsByType("pointofinterest");
 		ISpaceObject myself = (ISpaceObject)getBeliefbase().getBelief("myself").getFact();
 
-		myself.setProperty("position", aux);
+		myself.setProperty("position", ini); //posição inicial
 
 		//Calculate de the new direction
 		String dir = null;
 
+		//TEM DE PASSAR EM TODOS OS PONTOS ANTES DE TERMINAR
 		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))){
-			if(locations[0].getProperty("status").equals("notvisited")){//FAZER CICLO PARA PERCORRER TODOS
-				System.out.println("TEM PONTO DE INTERESSE PARA VISITAR");
 
-
-
-				ISpaceObject actual = locations[0];
-
-
-				while(!actual.getProperty("position").equals(myself.getProperty(Space2D.PROPERTY_POSITION)))
-				{
-					IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
-					IVector2 actualtarget = (IVector2)actual.getProperty("position");
-
+			HashMap <Integer,ISpaceObject> shorter = new HashMap <Integer,ISpaceObject>();
+			//VERIFICAR QUAL A PRÓXIMA VISITA
+			for(int x=0; x < locations.length; x++){
+				if(locations[x].getProperty("status").equals("notvisited")){
 					PathFinder pf = new PathFinder(Utils.map);
+					IVector2 actual = (IVector2)locations[x].getProperty("position");
 					List<Node> nodes = pf.compute(new PathFinder.Node(((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getXAsInteger(),
 							((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getYAsInteger()),
-							new PathFinder.Node(actualtarget.getXAsInteger(),
-									actualtarget.getYAsInteger()));
-
-					System.out.println("\nPOSICAO "+mypos+ " NODE:" + nodes.get(2));
-					Node next = nodes.get(2);
-
-					//IVector1 md = env.getShortestDirection(mypos.getX(), target.getX(), true);
-					int md= 0;
-					if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
-						if(mypos.getXAsInteger() < next.x)
-							md = 1; // DIREITA
-						else if(mypos.getXAsInteger() > next.x)
-							md = -1; //ESQUERDA
-					}
-					else
-						md = 0;
-
-					System.out.println("DIRECCAO" +md);
-
-					System.out.println("NODES "+nodes);
-
-
-					switch(md){
-					case 1:
-						dir = GoAction.RIGHT;
-						break;
-					case -1:
-						dir = GoAction.LEFT;
-						break;
-					default:
-						if(mypos.getXAsInteger() == next.x){
-							if(mypos.getYAsInteger() < next.y) 
-								md = 1; //BAIXO
-							else if(mypos.getYAsInteger() > next.y)
-								md = -1; //CIMA
-						}
-						switch(md){
-						case 1:
-							dir = GoAction.DOWN;
-							break;
-						case -1:
-							dir = GoAction.UP;
-						}
-					}
-
-					//Inform what is the new direction and execute space action
-					Map params = new HashMap();
-					params.put(GoAction.DIRECTION, dir);
-					params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
-					SyncResultListener srl	= new SyncResultListener();
-					env.performSpaceAction("go", params, srl); 
-					srl.waitForResult();
-
+							new PathFinder.Node(actual.getXAsInteger(),
+									actual.getYAsInteger()));
+					shorter.put(nodes.size(),locations[x]);
 				}
 
-				locations[0].setProperty("status", "visited");
-
-				System.out.println("JA VISITOU: "+ locations[0].getProperty("type") + ", estado: "+locations[0].getProperty("status"));
 			}
-			else if (locations[0].getProperty("status").equals("visited"))
+			//ORDERNAR HASHMAP
+			List ll = new LinkedList(); // Collections.sort() recebe como parametro um list  
+			ll.addAll(shorter.keySet());// buscando os valores no Map  
+			Collections.sort(ll);
+
+			ISpaceObject bet = null;
+			if(!ll.isEmpty())
+				bet = (ISpaceObject)shorter.get(ll.get(0));
+			else
+				bet = fd;
+
+			if(!bet.equals(fd)){
+				if(bet.getProperty("status").equals("notvisited")){
+
+					System.out.println("Indo para "+bet.getProperty("type"));
+
+					while(!bet.getProperty("position").equals(myself.getProperty(Space2D.PROPERTY_POSITION)))
+					{
+						IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
+						IVector2 actualtarget = (IVector2)bet.getProperty("position");
+
+
+						PathFinder pf = new PathFinder(Utils.map);
+						List<Node> nodes = pf.compute(new PathFinder.Node(((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getXAsInteger(),
+								((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getYAsInteger()),
+								new PathFinder.Node(actualtarget.getXAsInteger(),
+										actualtarget.getYAsInteger()));
+
+						Node next = nodes.get(2);
+
+						int md= 0;
+						if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
+							if(mypos.getXAsInteger() < next.x)
+								md = 1; // DIREITA
+							else if(mypos.getXAsInteger() > next.x)
+								md = -1; //ESQUERDA
+						}
+						else
+							md = 0;
+
+
+						switch(md){
+						case 1:
+							dir = GoAction.RIGHT;
+							break;
+						case -1:
+							dir = GoAction.LEFT;
+							break;
+						default:
+							if(mypos.getXAsInteger() == next.x){
+								if(mypos.getYAsInteger() < next.y) 
+									md = 1; //BAIXO
+								else if(mypos.getYAsInteger() > next.y)
+									md = -1; //CIMA
+							}
+							switch(md){
+							case 1:
+								dir = GoAction.DOWN;
+								break;
+							case -1:
+								dir = GoAction.UP;
+							}
+						}
+
+						//Inform what is the new direction and execute space action
+						Map params = new HashMap();
+						params.put(GoAction.DIRECTION, dir);
+						params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
+						SyncResultListener srl	= new SyncResultListener();
+						env.performSpaceAction("go", params, srl); 
+						srl.waitForResult();
+
+					}
+
+					bet.setProperty("status", "visited");
+					System.out.println("Visitei: "+ bet.getProperty("type"));
+				}
+			}
+			else //FINAL
 			{
-				System.out.println("ENTROU");
+				System.out.println("Indo para o fim");
 				while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION)))
 				{
 
@@ -134,10 +157,8 @@ public class GoPlanEnv extends Plan
 							new PathFinder.Node(target.getXAsInteger(),
 									target.getYAsInteger()));
 
-					System.out.println("\nPOSICAO "+mypos+ " NODE:" + nodes.get(2));
 					Node next = nodes.get(2);
 
-					//IVector1 md = env.getShortestDirection(mypos.getX(), target.getX(), true);
 					int md= 0;
 					if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
 						if(mypos.getXAsInteger() < next.x)
@@ -147,12 +168,6 @@ public class GoPlanEnv extends Plan
 					}
 					else
 						md = 0;
-
-					System.out.println("DIRECCAO" +md);
-
-
-
-					System.out.println("NODES "+nodes);
 
 
 					switch(md){
@@ -186,9 +201,12 @@ public class GoPlanEnv extends Plan
 					env.performSpaceAction("go", params, srl); 
 					srl.waitForResult();
 				}
-				System.out.println("CHEGOU AO FIM CARALHO");
 			}
-		System.out.println("OIOIOIOI");}
+		}
+
+		System.out.println("\n\nAcabou percurso\n\n");
+		for(int x=0;x<locations.length;x++)
+			System.out.println(locations[x].getProperty("type")+ " "+ locations[x].getProperty("status"));
 	}
 }
 

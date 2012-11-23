@@ -164,9 +164,26 @@
                     
                     <env:drawable objecttype="pointofinterest" width="1" height="1">
 						
-                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/driver.png">
-                            <env:drawcondition>$object.getProperty("type").equals("Cinema")</env:drawcondition>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/cinema.png">
+                            <env:drawcondition>$object.getProperty("type").equals("cinema")</env:drawcondition>
                         </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/coffee.png">
+                            <env:drawcondition>$object.getProperty("type").equals("coffee")</env:drawcondition>
+                        </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/beach.png">
+                            <env:drawcondition>$object.getProperty("type").equals("beach")</env:drawcondition>
+                        </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/museum.png">
+                            <env:drawcondition>$object.getProperty("type").equals("museum")</env:drawcondition>
+                        </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/park.png">
+                            <env:drawcondition>$object.getProperty("type").equals("park")</env:drawcondition>
+                        </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/tribunal.png">
+                            <env:drawcondition>$object.getProperty("type").equals("tribunal")</env:drawcondition>
+                        </env:texturedrectangle>
+                        
+                        
                     </env:drawable>    
                     
 					<!-- Draw tiles to have better perception of the world -->
@@ -208,11 +225,42 @@
                         </env:object>
                         
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(25, 5)</env:property>
+                            <env:property name="position">new Vector2Double(10, 16)</env:property>
                             <env:property name="id">1</env:property>
                             <env:property name="preconditions">""</env:property>
-                            <env:property name="type">"Cinema"</env:property>
+                            <env:property name="type">"cinema"</env:property>
                         </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(28, 4)</env:property>
+                            <env:property name="id">2</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"coffee"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(1, 10)</env:property>
+                            <env:property name="id">3</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"beach"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(1, 28)</env:property>
+                            <env:property name="id">4</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"park"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(15, 4)</env:property>
+                            <env:property name="id">5</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"museum"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(27, 18)</env:property>
+                            <env:property name="id">6</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"tribunal"</env:property>
+                        </env:object>
+                        
                         
                     </env:objects>
                     <env:processes>
