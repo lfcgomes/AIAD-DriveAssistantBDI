@@ -31,7 +31,7 @@
 	<extensiontypes>
 	
 		<!-- Declaration of a grid environment as space type. -->
-		<env:envspacetype name="gc2dspace" width="30" height="30" class="Grid2D">
+		<env:envspacetype name="gc2dspace" width="20" height="20" class="Grid2D">
 		
 			<!-- The objecttypes of this environment. -->
 			<env:objecttypes>
@@ -214,48 +214,48 @@
 				<env:envspace name="mygc2dspace" type="gc2dspace">
 					<env:objects>
                         <env:object type="homebase">
-                            <env:property name="position">new Vector2Double(1, 1)</env:property>
+                            <env:property name="position">new Vector2Double(0, 0)</env:property>
                         </env:object>
-						<env:object type="accident">
+						<!-- <env:object type="accident">
                             <env:property name="position">new Vector2Double(5, 5)</env:property>
-                        </env:object>
+                        </env:object> -->
                         <env:object type="finaldestination">
-                            <env:property name="position">new Vector2Double(29, 25)</env:property>
+                            <env:property name="position">new Vector2Double(0, 6)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
                         
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(10, 16)</env:property>
+                            <env:property name="position">new Vector2Double(5, 0)</env:property>
                             <env:property name="id">1</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"cinema"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(28, 4)</env:property>
+                            <env:property name="position">new Vector2Double(17, 9)</env:property>
                             <env:property name="id">2</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"coffee"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(1, 10)</env:property>
+                            <env:property name="position">new Vector2Double(8, 11)</env:property>
                             <env:property name="id">3</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"beach"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(1, 28)</env:property>
+                            <env:property name="position">new Vector2Double(2, 18)</env:property>
                             <env:property name="id">4</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"park"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(15, 4)</env:property>
+                            <env:property name="position">new Vector2Double(12, 18)</env:property>
                             <env:property name="id">5</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"museum"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(27, 18)</env:property>
+                            <env:property name="position">new Vector2Double(12, 0)</env:property>
                             <env:property name="id">6</env:property>
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"tribunal"</env:property>
