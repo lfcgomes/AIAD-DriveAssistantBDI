@@ -52,8 +52,15 @@
 				</env:objecttype>
 				<env:objecttype name="homebase">
                 </env:objecttype>
-      
+      			
                 <env:objecttype name="finaldestination">
+                </env:objecttype>
+                
+                <env:objecttype name="pointofinterest">
+                    <env:property name="status" class="String">"notvisited"</env:property>
+                    <env:property name="id" class="Integer"></env:property>
+                    <env:property name="preconditions" class="String">""</env:property>
+                    <env:property name="type" class="String">""</env:property>
                 </env:objecttype>
                 
                 <env:objecttype name="cell">
@@ -155,6 +162,13 @@
                         </env:rectangle>
                     </env:drawable>
                     
+                    <env:drawable objecttype="pointofinterest" width="1" height="1">
+						
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/driver.png">
+                            <env:drawcondition>$object.getProperty("type").equals("Cinema")</env:drawcondition>
+                        </env:texturedrectangle>
+                    </env:drawable>    
+                    
 					<!-- Draw tiles to have better perception of the world -->
 					<env:prelayers>
 						<env:tiledlayer width="3.5" height="3.5" imagepath="images/ground.jpg" />
@@ -181,9 +195,6 @@
         <configuration name="Directo">
 			<extensions>
 				<env:envspace name="mygc2dspace" type="gc2dspace">
-				 
-					
-			   	 
 					<env:objects>
                         <env:object type="homebase">
                             <env:property name="position">new Vector2Double(1, 1)</env:property>
@@ -195,6 +206,14 @@
                             <env:property name="position">new Vector2Double(29, 25)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
+                        
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(25, 5)</env:property>
+                            <env:property name="id">1</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"Cinema"</env:property>
+                        </env:object>
+                        
                     </env:objects>
                     <env:processes>
                         <env:process type="build_map"/>

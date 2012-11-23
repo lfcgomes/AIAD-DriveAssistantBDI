@@ -10,9 +10,9 @@ public class PathFinder {
         public int x;
         public int y;
         public Node parent;
-        public Double g = 0.0;
-        public Double h = 0.0;
-        public Double f = 0.0;
+        public Double g = 0.0;	//
+        public Double h = 0.0;	//
+        public Double f = 0.0;	//
 
         public Node(int x, int y) {
             this.x = x;
