@@ -76,11 +76,44 @@ public class GoPlanEnv extends Plan
 
 			
 			ISpaceObject next_visit = null;
-			if(!ll.isEmpty())
-				next_visit = (ISpaceObject)shorter.get(ll.get(0));
-			else
-				next_visit = fd;
+			//VE SE AINDA TEM PONTOS PARA VISITAR
+			if(!ll.isEmpty()){
+				
+				ISpaceObject aux = (ISpaceObject)shorter.get(ll.get(0));
+				IVector2 posicao = (IVector2)aux.getProperty("position");
+				
+				//Caminho entre o ponto de interesse a visitar
+				//e o destino
+				ShortestPath sp = new ShortestPath(Utils.map);
+				List<Node> nodes = sp.compute(
+						new ShortestPath.Node(posicao.getXAsInteger(),
+						posicao.getYAsInteger()),
+						new ShortestPath.Node(target.getXAsInteger(),
+								target.getYAsInteger())
+						);
+				
 
+				
+				int total = nodes.size()+(Integer)ll.get(0);
+				
+				myself.setProperty("time", 200);
+				
+				
+				System.out.println(myself.getProperty("time"));
+	
+				
+				
+				
+				next_visit = (ISpaceObject)shorter.get(ll.get(0));
+				System.out.println("PROXIMA VISITA "+aux.getProperty("position"));
+			}
+			else //SENAO VAI PARA FINAL DESTINATION
+				next_visit = fd;
+			
+			
+					
+			
+			
 			if(!next_visit.equals(fd)){ //AINDA TEM PONTOS PARA VISITAR
 				if(next_visit.getProperty("status").equals("notvisited")){
 

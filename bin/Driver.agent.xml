@@ -46,7 +46,10 @@
  		<!-- Tipo de viagem  -->
  		<belief name="directo" class="boolean">
             <fact>false</fact>
-        </belief>		
+        </belief>	
+        <belief name="time" class="ISpaceObject">
+            <fact> $beliefbase.myself.getProperty("time")</fact>
+        </belief>
 		
     </beliefs>
 	

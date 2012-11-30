@@ -45,11 +45,13 @@
 					</env:property>
 					<env:property name="vision_range">1</env:property>
 					<env:property name="position" event="true"/>
+					<env:property name="time">500</env:property>
 				</env:objecttype>
 				
 				<env:objecttype name="accident">
 					<env:property name="position" event="true"/>
 				</env:objecttype>
+				
 				<env:objecttype name="homebase">
                 </env:objecttype>
       			
@@ -140,8 +142,8 @@
 						
 					</env:drawable>
 					
-					<env:drawable objecttype="accident" width="0.5" height="0.5">
-						<env:texturedrectangle layer="0" imagepath="images/crash.png" />
+					<env:drawable objecttype="accident" width="1.0" height="1.0">
+						<env:texturedrectangle layer="2" imagepath="images/accident.png" />
 					</env:drawable>
 					
                     <env:drawable objecttype="homebase" width="1" height="1">
@@ -260,7 +262,9 @@
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"tribunal"</env:property>
                         </env:object>
-                        
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        </env:object>
                         
                     </env:objects>
                     <env:processes>
