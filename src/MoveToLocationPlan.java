@@ -1,5 +1,3 @@
-
-
 import jadex.bdi.planlib.PlanFinishedTaskCondition;
 import jadex.bdi.runtime.Plan;
 import jadex.extension.envsupport.environment.AbstractTask;
@@ -12,18 +10,20 @@ import jadex.extension.envsupport.math.Vector2Int;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import algorithms.PathFinder;
-import algorithms.PathFinder.Node;
+import algorithms.ShortestPath;
+import algorithms.ShortestPath.Node;
 
 import java.util.Iterator;
 import java.util.Set;
 
 
+//FIXME para já não é usado
+
 public class MoveToLocationPlan extends Plan {
 
    
     public void body() {
-
+    	
         ISpaceObject myself = (ISpaceObject) getBeliefbase().getBelief("myself").getFact();
         IVector2 dest = (IVector2) getParameter("destination").getValue();
         getBeliefbase().getBelief("poi").setFact(getParameter("destination").getValue());

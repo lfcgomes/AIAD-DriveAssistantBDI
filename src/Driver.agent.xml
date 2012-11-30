@@ -32,12 +32,10 @@
 		<belief name="env" class="Grid2D">
  			<fact class="IFuture">$scope.getParentAccess().getExtension("mygc2dspace")</fact>
  		</belief>
- 		
  		<!-- Myself. -->
  		<belief name="myself" class="ISpaceObject">
  			<fact>$beliefbase.env.getAvatar($scope.getComponentDescription(), $scope.getAgentModel().getFullName())</fact>
  		</belief>
-  				
         <!-- The actual position on the grid world. -->
 		<belief name="pos" class="IVector2" evaluationmode="push">
 			<fact language="jcl">
@@ -45,7 +43,10 @@
 				// $beliefbase.myself.getProperty("position")
 			</fact>
  		</belief>
- 				
+ 		<!-- Tipo de viagem  -->
+ 		<belief name="directo" class="boolean">
+            <fact>false</fact>
+        </belief>		
 		
     </beliefs>
 	
@@ -101,7 +102,12 @@
     
     
     <configurations>
-		<configuration name="directo">
+		<configuration name="turistico">
+			<beliefs>
+                <initialbelief ref="directo">
+                    <fact>false</fact>
+                </initialbelief>
+            </beliefs>
 			<goals>
 				<!-- Initial goal for searching for garbage. -->
 				<initialgoal ref="go"/>			

@@ -1,7 +1,7 @@
 package algorithms;
 import java.util.*;
 
-public class PathFinder {
+public class ShortestPath {
 
     private int[][] map;
 
@@ -24,7 +24,7 @@ public class PathFinder {
         }
     }
 
-    public PathFinder(int[][] map) {
+    public ShortestPath(int[][] map) {
         this.map = map;
     }
 

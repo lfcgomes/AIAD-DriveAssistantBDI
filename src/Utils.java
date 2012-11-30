@@ -1,5 +1,5 @@
 //import algorithms.PathFinder.Node;
-import algorithms.PathFinder.Node;
+import algorithms.ShortestPath.Node;
 import jadex.extension.envsupport.environment.ISpaceObject;
 
 
