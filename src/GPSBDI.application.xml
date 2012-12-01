@@ -45,7 +45,7 @@
 					</env:property>
 					<env:property name="vision_range">1</env:property>
 					<env:property name="position" event="true"/>
-					<env:property name="time">500</env:property>
+					<env:property name="time">100</env:property>
 				</env:objecttype>
 				
 				<env:objecttype name="accident">

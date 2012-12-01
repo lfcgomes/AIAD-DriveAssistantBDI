@@ -96,15 +96,20 @@ public class GoPlanEnv extends Plan
 				
 				int total = nodes.size()+(Integer)ll.get(0);
 				
-				myself.setProperty("time", 200);
 				
 				
-				System.out.println(myself.getProperty("time"));
+				
+				System.out.println("time actual: "+ myself.getProperty("time"));
+				System.out.println("total: "+total);
+				System.out.println("proximo time: "+ ((Integer)myself.getProperty("time") - total));
 	
 				
-				
-				
-				next_visit = (ISpaceObject)shorter.get(ll.get(0));
+				if((Integer)myself.getProperty("time") >= total){
+					next_visit = (ISpaceObject)shorter.get(ll.get(0));
+					myself.setProperty("time", (Integer)myself.getProperty("time")-total);
+					}
+				else //SENAO VAI PARA FINAL DESTINATION
+					next_visit = fd;
 				System.out.println("PROXIMA VISITA "+aux.getProperty("position"));
 			}
 			else //SENAO VAI PARA FINAL DESTINATION
