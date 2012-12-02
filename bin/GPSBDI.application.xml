@@ -45,7 +45,7 @@
 					</env:property>
 					<env:property name="vision_range">1</env:property>
 					<env:property name="position" event="true"/>
-					<env:property name="time">100</env:property>
+					<env:property name="time">500</env:property>
 				</env:objecttype>
 				
 				<env:objecttype name="accident">
@@ -211,7 +211,7 @@
 	<!-- Application instance definitions. -->
 	<configurations>
 	
-        <configuration name="Directo">
+        <configuration name="Turistico">
 			<extensions>
 				<env:envspace name="mygc2dspace" type="gc2dspace">
 					<env:objects>
@@ -280,6 +280,41 @@
 				<component type="Driver"/>
 			</components>			
 		</configuration>
+		
+		<configuration name="Directo">
+			<extensions>
+				<env:envspace name="mygc2dspace" type="gc2dspace">
+					<env:objects>
+                        <env:object type="homebase">
+                            <env:property name="position">new Vector2Double(0, 0)</env:property>
+                        </env:object>
+						<!-- <env:object type="accident">
+                            <env:property name="position">new Vector2Double(5, 5)</env:property>
+                        </env:object> -->
+                        <env:object type="finaldestination">
+                            <env:property name="position">new Vector2Double(0, 6)</env:property>
+                            <env:property name="space">$space</env:property>
+                        </env:object>
+                        
+                                                <env:object type="accident">
+                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        </env:object>
+                        
+                    </env:objects>
+                    <env:processes>
+                        <env:process type="build_map"/>
+                    </env:processes>
+					<env:observers>
+						<env:observer name="Mundo" dataview="mapa" perspective="abstract"/>
+					</env:observers>
+				</env:envspace>
+			</extensions>
+
+			<components>
+				<component type="Driver"/>
+			</components>			
+		</configuration>
+		
        
     </configurations>
 
