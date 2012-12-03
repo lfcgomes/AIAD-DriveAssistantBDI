@@ -73,16 +73,16 @@ public class GoPlanEnv extends Plan
 			/*VERIFICAR QUAL A PRÓXIMA VISITA QUE SERÁ O PONTO DE INTERESSE MAIS PROXIMO DO PONTO INICIAL*/
 			for(int x=0; x < locations.length; x++){
 				if(locations[x].getProperty("status").equals("notvisited")){
-					
+
 					IVector2 actual = (IVector2)locations[x].getProperty("position");
-					
+
 					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),actual);
-					
+
 					if(nodes != null)
 						shorter.put(nodes.size(),locations[x]);					
 				}
 			}
-			
+
 			List ll = new LinkedList(); // Collections.sort() recebe como parametro um list  
 			ll.addAll(shorter.keySet());// buscando os valores no Map  
 			Collections.sort(ll);
@@ -99,7 +99,7 @@ public class GoPlanEnv extends Plan
 
 				//Caminho entre o ponto de interesse a visitar
 				//e o destino
-				
+
 				List<Node> nodes = GetPath(posicao, target);
 
 				int total = nodes.size()+(Integer)ll.get(0);
@@ -111,7 +111,7 @@ public class GoPlanEnv extends Plan
 				}
 				else
 					next_visit = fd;
-				
+
 			}
 			else 
 				next_visit = fd;
@@ -129,7 +129,7 @@ public class GoPlanEnv extends Plan
 						IVector2 actualtarget = (IVector2)next_visit.getProperty("position");
 
 						List<Node> nodes = GetPath((IVector2)myself.getProperty(Space2D.PROPERTY_POSITION),
-										actualtarget);
+								actualtarget);
 
 						Node next = nodes.get(2);
 
@@ -156,7 +156,7 @@ public class GoPlanEnv extends Plan
 									dispatchSubgoal(check);
 								}
 							}
-						}			
+						}	
 
 						if(!acidente){
 
@@ -218,49 +218,71 @@ public class GoPlanEnv extends Plan
 					IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 
 					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),target);
-									
+
 					Node next = nodes.get(2);
 
-					int md= 0;
-					if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
-						if(mypos.getXAsInteger() < next.x)
-							md = 1; // DIREITA
-						else if(mypos.getXAsInteger() > next.x)
-							md = -1; //ESQUERDA
-					}
-					else
-						md = 0;
+					for(int x=0;x<acidentes.length;x++){
+						//Só se o acidente não estiver evitado
+						if(acidentes[x].getProperty("state").equals("notavoid") && !acidente){ 
+							IVector2 aci_pos = (IVector2)acidentes[x].getProperty("position");
+							Node aci = new Node(aci_pos.getXAsInteger(),aci_pos.getYAsInteger());
 
-					switch(md){
-					case 1:
-						dir = GoAction.RIGHT;
-						break;
-					case -1:
-						dir = GoAction.LEFT;
-						break;
-					default:
-						if(mypos.getXAsInteger() == next.x){
-							if(mypos.getYAsInteger() < next.y) 
-								md = 1; //BAIXO
-							else if(mypos.getYAsInteger() > next.y)
-								md = -1; //CIMA
+							if(this.equal(aci,next))
+							{
+								acidente=true;
+
+								myself.setProperty("accident", acidentes[x]);
+
+								IGoal check = createGoal("check");
+								check.getParameter("target").setValue(acidentes[x]);
+
+								dispatchSubgoal(check);
+							}
 						}
+					}	
+
+					if(!acidente){
+						int md= 0;
+						if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
+							if(mypos.getXAsInteger() < next.x)
+								md = 1; // DIREITA
+							else if(mypos.getXAsInteger() > next.x)
+								md = -1; //ESQUERDA
+						}
+						else
+							md = 0;
+
 						switch(md){
 						case 1:
-							dir = GoAction.DOWN;
+							dir = GoAction.RIGHT;
 							break;
 						case -1:
-							dir = GoAction.UP;
+							dir = GoAction.LEFT;
+							break;
+						default:
+							if(mypos.getXAsInteger() == next.x){
+								if(mypos.getYAsInteger() < next.y) 
+									md = 1; //BAIXO
+								else if(mypos.getYAsInteger() > next.y)
+									md = -1; //CIMA
+							}
+							switch(md){
+							case 1:
+								dir = GoAction.DOWN;
+								break;
+							case -1:
+								dir = GoAction.UP;
+							}
 						}
-					}
 
-					//Inform what is the new direction and execute space action
-					Map params = new HashMap();
-					params.put(GoAction.DIRECTION, dir);
-					params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
-					SyncResultListener srl	= new SyncResultListener();
-					env.performSpaceAction("go", params, srl); 
-					srl.waitForResult();
+						//Inform what is the new direction and execute space action
+						Map params = new HashMap();
+						params.put(GoAction.DIRECTION, dir);
+						params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
+						SyncResultListener srl	= new SyncResultListener();
+						env.performSpaceAction("go", params, srl); 
+						srl.waitForResult();
+					}
 				}
 			}
 		}
@@ -274,13 +296,15 @@ public class GoPlanEnv extends Plan
 	protected boolean equal(Node node, Node end) {
 		return (node.x == end.x) && (node.y == end.y);
 	}
-	
+
 	protected List<Node> GetPath(IVector2 start,IVector2 end){
-		
+
 		ShortestPath sp = new ShortestPath(Utils.map);
 		List<Node> nodes = sp.compute(new ShortestPath.Node(start.getXAsInteger(),start.getYAsInteger()),
-									  new ShortestPath.Node(end.getXAsInteger(),end.getYAsInteger())
-		);
+				new ShortestPath.Node(end.getXAsInteger(),end.getYAsInteger())
+				);
 		return nodes;		
 	}
+
+
 }
