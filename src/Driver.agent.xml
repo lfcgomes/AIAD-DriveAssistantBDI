@@ -60,19 +60,14 @@
         
         <achievegoal name="check" retry="false">
             <parameter name="target" class="ISpaceObject">
-                <value>
+                 <value>
                     $target
                 </value>
             </parameter>
-            <!-- <parameter name="poi" class="IVector2">
-                <value>
-                    $beliefbase.poi
-                </value>
-            </parameter> -->
             <unique/>
-            <creationcondition language="jcl">
+             <creationcondition language="jcl">
                     ISpaceObject $target &amp;&amp;
-                    $beliefbase.accident == $target
+                    $beliefbase.myself.accident == $target
             </creationcondition>
             <deliberation>
                 <inhibits ref="go"/>
@@ -83,6 +78,11 @@
 		<!-- Goal for going to a specified position. -->
 		<achievegoal name="go">
 			<parameter name="pos" class="IVector2"/>
+			<dropcondition language="jcl">
+                ISpaceObject $target &amp;&amp;
+                $beliefbase.myself.accident == $target &amp;&amp;
+                $target.state=="notavoid" 
+            </dropcondition>
 		</achievegoal> 
 		
 
@@ -90,14 +90,11 @@
 	
     <plans>
     
-    <plan name="avoidAccident">
+    <plan name="checkAccident">
             <parameter name="target" class="ISpaceObject">
                 <goalmapping ref="check.target"/>
             </parameter>
-            <!-- <parameter name="poi" class="IVector2">
-                <goalmapping ref="check.poi"/>
-            </parameter> -->
-            <body class="AvoidAccident"/>
+            <body class="CheckAccident"/>
             <trigger>
                 <goal ref="check"/>
             </trigger>
@@ -118,7 +115,7 @@
     
     
     <configurations>
-		<configuration name="turistico">
+		<configuration name="Turistico">
 			<!-- <beliefs>
                 <initialbelief ref="directo">
                     <fact>false</fact>
@@ -126,7 +123,7 @@
             </beliefs> -->
 			<goals>
 				<!-- Initial goal for searching for garbage. -->
-				<initialgoal ref="go"/>	
+				<initialgoal ref="go" />	
 				<!-- <initialgoal ref="check"/> -->		
 			</goals>
 		</configuration>
