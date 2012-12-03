@@ -262,7 +262,10 @@
                             <env:property name="type">"tribunal"</env:property>
                         </env:object>
                         <env:object type="accident">
-                            <env:property name="position">new Vector2Double(8, 6)</env:property>
+                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(10, 6)</env:property>
                         </env:object>
                         
                     </env:objects>

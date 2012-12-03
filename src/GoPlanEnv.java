@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import EDU.oswego.cs.dl.util.concurrent.TimeoutException;
 import algorithms.ShortestPath;
 import algorithms.ShortestPath.Node;
 
@@ -61,40 +62,35 @@ public class GoPlanEnv extends Plan
 
 		//Calculate de the new direction
 		String dir = null;
+		//Controlo de acidente para ele não andar para "cima" do acidente
 		boolean acidente = false;
-		
+
 		//Tem de passar por todos os pontos antes de terminar
 		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))&& !acidente){
-			
+
 			HashMap <Integer,ISpaceObject> shorter = new HashMap <Integer,ISpaceObject>();
+
 			/*VERIFICAR QUAL A PRÓXIMA VISITA QUE SERÁ O PONTO DE INTERESSE MAIS PROXIMO DO PONTO INICIAL*/
 			for(int x=0; x < locations.length; x++){
 				if(locations[x].getProperty("status").equals("notvisited")){
-					System.out.println("Chegou aqui");
-					ShortestPath sp = new ShortestPath(Utils.map);
+					
 					IVector2 actual = (IVector2)locations[x].getProperty("position");
-
-					List<Node> nodes = sp.compute(
-							new ShortestPath.Node(((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getXAsInteger(),
-									((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getYAsInteger()),
-									new ShortestPath.Node(actual.getXAsInteger(),
-											actual.getYAsInteger())
-							);
-
-
-					shorter.put(nodes.size(),locations[x]);
+					
+					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),actual);
+					
+					if(nodes != null)
+						shorter.put(nodes.size(),locations[x]);					
 				}
 			}
-
-			//ORDERNAR HASHMAP
+			
 			List ll = new LinkedList(); // Collections.sort() recebe como parametro um list  
 			ll.addAll(shorter.keySet());// buscando os valores no Map  
 			Collections.sort(ll);
 
-			
+
 			ISpaceObject next_visit = null;
 
-			
+
 			//verifica se anda tem pontos para visitar
 			if(!ll.isEmpty()){
 
@@ -103,15 +99,8 @@ public class GoPlanEnv extends Plan
 
 				//Caminho entre o ponto de interesse a visitar
 				//e o destino
-				ShortestPath sp = new ShortestPath(Utils.map);
-				List<Node> nodes = sp.compute(
-						new ShortestPath.Node(posicao.getXAsInteger(),
-								posicao.getYAsInteger()),
-								new ShortestPath.Node(target.getXAsInteger(),
-										target.getYAsInteger())
-						);
-
-
+				
+				List<Node> nodes = GetPath(posicao, target);
 
 				int total = nodes.size()+(Integer)ll.get(0);
 
@@ -120,11 +109,11 @@ public class GoPlanEnv extends Plan
 					next_visit = (ISpaceObject)shorter.get(ll.get(0));
 					myself.setProperty("time", (Integer)myself.getProperty("time")-total);
 				}
-				else //SENAO VAI PARA FINAL DESTINATION
+				else
 					next_visit = fd;
-				System.out.println("PROXIMA VISITA "+next_visit.getProperty("position"));
+				
 			}
-			else //SENAO VAI PARA FINAL DESTINATION
+			else 
 				next_visit = fd;
 
 
@@ -139,28 +128,22 @@ public class GoPlanEnv extends Plan
 						IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 						IVector2 actualtarget = (IVector2)next_visit.getProperty("position");
 
-
-						ShortestPath sp = new ShortestPath(Utils.map);
-						List<Node> nodes = sp.compute(
-								new ShortestPath.Node(((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getXAsInteger(),
-										((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getYAsInteger()),
-										new ShortestPath.Node(actualtarget.getXAsInteger(),
-												actualtarget.getYAsInteger())
-								);
+						List<Node> nodes = GetPath((IVector2)myself.getProperty(Space2D.PROPERTY_POSITION),
+										actualtarget);
 
 						Node next = nodes.get(2);
 
 
-					
+
 						//Verifica se o próximo node tem algum acidente
 						//Isto simula visão
-						
+
 						for(int x=0;x<acidentes.length;x++){
 							//Só se o acidente não estiver evitado
 							if(acidentes[x].getProperty("state").equals("notavoid") && !acidente){ 
 								IVector2 aci_pos = (IVector2)acidentes[x].getProperty("position");
 								Node aci = new Node(aci_pos.getXAsInteger(),aci_pos.getYAsInteger());
-								
+
 								if(this.equal(aci,next))
 								{
 									acidente=true;
@@ -234,14 +217,8 @@ public class GoPlanEnv extends Plan
 
 					IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 
-					ShortestPath sp = new ShortestPath(Utils.map);
-					List<Node> nodes = sp.compute(
-							new ShortestPath.Node(((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getXAsInteger(),
-									((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION)).getYAsInteger()),
-									new ShortestPath.Node(target.getXAsInteger(),
-											target.getYAsInteger())
-							);
-
+					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),target);
+									
 					Node next = nodes.get(2);
 
 					int md= 0;
@@ -288,13 +265,22 @@ public class GoPlanEnv extends Plan
 			}
 		}
 
-		System.out.println("\n\nAcabou percurso\n\n");
+		System.out.println("\n\nAcabou percurso\n");
 		for(int x=0;x<locations.length;x++)
-			System.out.println(locations[x].getProperty("type")+ " "+ locations[x].getProperty("status"));
+			System.out.println(locations[x].getProperty("type")+ " " + locations[x].getProperty("status"));
+	}
+
+
+	protected boolean equal(Node node, Node end) {
+		return (node.x == end.x) && (node.y == end.y);
 	}
 	
-	
-	protected boolean equal(Node node, Node end) {
-        return (node.x == end.x) && (node.y == end.y);
-    }
+	protected List<Node> GetPath(IVector2 start,IVector2 end){
+		
+		ShortestPath sp = new ShortestPath(Utils.map);
+		List<Node> nodes = sp.compute(new ShortestPath.Node(start.getXAsInteger(),start.getYAsInteger()),
+									  new ShortestPath.Node(end.getXAsInteger(),end.getYAsInteger())
+		);
+		return nodes;		
+	}
 }
