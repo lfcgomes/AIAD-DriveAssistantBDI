@@ -49,7 +49,7 @@
 				</env:objecttype>
 				
 				<env:objecttype name="accident">
-					<env:property name="position" event="true"/>
+					<!-- <env:property name="position" event="true"/> -->
 				</env:objecttype>
 				
 				<env:objecttype name="homebase">
@@ -218,9 +218,6 @@
                         <env:object type="homebase">
                             <env:property name="position">new Vector2Double(0, 0)</env:property>
                         </env:object>
-						<!-- <env:object type="accident">
-                            <env:property name="position">new Vector2Double(5, 5)</env:property>
-                        </env:object> -->
                         <env:object type="finaldestination">
                             <env:property name="position">new Vector2Double(0, 6)</env:property>
                             <env:property name="space">$space</env:property>
@@ -288,15 +285,13 @@
                         <env:object type="homebase">
                             <env:property name="position">new Vector2Double(0, 0)</env:property>
                         </env:object>
-						<!-- <env:object type="accident">
-                            <env:property name="position">new Vector2Double(5, 5)</env:property>
-                        </env:object> -->
+
                         <env:object type="finaldestination">
                             <env:property name="position">new Vector2Double(0, 6)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
                         
-                                                <env:object type="accident">
+                        <env:object type="accident">
                             <env:property name="position">new Vector2Double(8, 0)</env:property>
                         </env:object>
                         

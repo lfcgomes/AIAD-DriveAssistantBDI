@@ -43,42 +43,66 @@
 				// $beliefbase.myself.getProperty("position")
 			</fact>
  		</belief>
- 		<!-- Tipo de viagem  -->
+ 		<!-- Tipo de viagem   
  		<belief name="directo" class="boolean">
             <fact>false</fact>
-        </belief>	
+        </belief>	-->
+        
         <belief name="time" class="ISpaceObject">
             <fact> $beliefbase.myself.getProperty("time")</fact>
         </belief>
+        
+        <belief name="accident" class="ISpaceObject" exported="true" />
 		
     </beliefs>
 	
     <goals>
         
-        <!-- Goal for going around on the grid
-			 -->
-		<performgoal name="check" exclude="never"/>
+        <achievegoal name="check" retry="false">
+            <parameter name="target" class="ISpaceObject">
+                <value>
+                    $target
+                </value>
+            </parameter>
+            <!-- <parameter name="poi" class="IVector2">
+                <value>
+                    $beliefbase.poi
+                </value>
+            </parameter> -->
+            <unique/>
+            <creationcondition language="jcl">
+                    ISpaceObject $target &amp;&amp;
+                    $beliefbase.accident == $target
+            </creationcondition>
+            <deliberation>
+                <inhibits ref="go"/>
+                <inhibits ref="check"/>
+            </deliberation>
+        </achievegoal>
 		
 		<!-- Goal for going to a specified position. -->
 		<achievegoal name="go">
 			<parameter name="pos" class="IVector2"/>
 		</achievegoal> 
 		
-		<achievegoal name="go_destination">
-			<parameter name="destination" class="IVector2"/>
-		</achievegoal> 
 
     </goals>
 	
     <plans>
-       		<!-- Plan for running on a predefined route -->
-		<plan name="checking_plan">
-			<body class="CheckingPlanEnv"/>
-			<trigger>
-				<goal ref="check"/>
-			</trigger>
-		</plan>
-		
+    
+    <plan name="avoidAccident">
+            <parameter name="target" class="ISpaceObject">
+                <goalmapping ref="check.target"/>
+            </parameter>
+            <!-- <parameter name="poi" class="IVector2">
+                <goalmapping ref="check.poi"/>
+            </parameter> -->
+            <body class="AvoidAccident"/>
+            <trigger>
+                <goal ref="check"/>
+            </trigger>
+        </plan>
+    
 		<!-- Plan for going to a target position. -->
 		<plan name="go_plan">
 			<parameter name="pos" class="IVector2">
@@ -90,30 +114,20 @@
 			</trigger>
 		</plan>
 		
-		<plan name="go_destination">
-            <parameter name="destination" class="IVector2">
-                <goalmapping ref="go_destination.destination"/>
-            </parameter>
-            <body class="MoveToLocationPlan"/>
-            <trigger>
-                <goal ref="go_destination"/>
-            </trigger>
-        </plan>
-		
-		
     </plans>
     
     
     <configurations>
 		<configuration name="turistico">
-			<beliefs>
+			<!-- <beliefs>
                 <initialbelief ref="directo">
                     <fact>false</fact>
                 </initialbelief>
-            </beliefs>
+            </beliefs> -->
 			<goals>
 				<!-- Initial goal for searching for garbage. -->
-				<initialgoal ref="go"/>			
+				<initialgoal ref="go"/>	
+				<!-- <initialgoal ref="check"/> -->		
 			</goals>
 		</configuration>
 	</configurations>
