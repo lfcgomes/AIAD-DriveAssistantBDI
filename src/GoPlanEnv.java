@@ -63,10 +63,10 @@ public class GoPlanEnv extends Plan
 		//Calculate de the new direction
 		String dir = null;
 		//Controlo de acidente para ele não andar para "cima" do acidente
-		boolean acidente = false;
+		//boolean acidente = false;
 
 		//Tem de passar por todos os pontos antes de terminar
-		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))&& !acidente){
+		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))){//&& !acidente){
 
 			HashMap <Integer,ISpaceObject> shorter = new HashMap <Integer,ISpaceObject>();
 
@@ -75,7 +75,7 @@ public class GoPlanEnv extends Plan
 				if(locations[x].getProperty("status").equals("notvisited")){
 
 					IVector2 actual = (IVector2)locations[x].getProperty("position");
-
+					
 					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),actual);
 
 					if(nodes != null)
@@ -103,11 +103,11 @@ public class GoPlanEnv extends Plan
 				List<Node> nodes = GetPath(posicao, target);
 
 				int total = nodes.size()+(Integer)ll.get(0);
-
-
+				
 				if((Integer)myself.getProperty("time") >= total){
 					next_visit = (ISpaceObject)shorter.get(ll.get(0));
 					myself.setProperty("time", (Integer)myself.getProperty("time")-total);
+					
 				}
 				else
 					next_visit = fd;
@@ -140,12 +140,17 @@ public class GoPlanEnv extends Plan
 
 						for(int x=0;x<acidentes.length;x++){
 							//Só se o acidente não estiver evitado
-							if(acidentes[x].getProperty("state").equals("notavoid") && !acidente){ 
+							if(acidentes[x].getProperty("state").equals("notavoid")){// && !acidente){ 
 								IVector2 aci_pos = (IVector2)acidentes[x].getProperty("position");
 								Node aci = new Node(aci_pos.getXAsInteger(),aci_pos.getYAsInteger());
 
 								if(this.equal(aci,next))
 								{
+								
+									myself.setProperty("accident", acidentes[x]);
+									IGoal check = createGoal("check");
+									check.getParameter("target").setValue(acidentes[x]);
+									/*
 									acidente=true;
 
 									myself.setProperty("accident", acidentes[x]);
@@ -153,12 +158,12 @@ public class GoPlanEnv extends Plan
 									IGoal check = createGoal("check");
 									check.getParameter("target").setValue(acidentes[x]);
 
-									dispatchSubgoal(check);
+//									dispatchSubgoal(check);*/
 								}
 							}
 						}	
 
-						if(!acidente){
+						//if(!acidente){
 
 							int md= 0;
 							if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
@@ -201,12 +206,12 @@ public class GoPlanEnv extends Plan
 							SyncResultListener srl	= new SyncResultListener();
 							env.performSpaceAction("go", params, srl); 
 							srl.waitForResult();
-						}
+						//}
 					}
-					if(!acidente){
+					//if(!acidente){
 						next_visit.setProperty("status", "visited");
 						System.out.println("Visitei: "+ next_visit.getProperty("type"));
-					}
+					//}
 				}
 			}
 			else //FINAL
@@ -223,25 +228,32 @@ public class GoPlanEnv extends Plan
 
 					for(int x=0;x<acidentes.length;x++){
 						//Só se o acidente não estiver evitado
-						if(acidentes[x].getProperty("state").equals("notavoid") && !acidente){ 
+						if(acidentes[x].getProperty("state").equals("notavoid")){// && !acidente){ 
 							IVector2 aci_pos = (IVector2)acidentes[x].getProperty("position");
 							Node aci = new Node(aci_pos.getXAsInteger(),aci_pos.getYAsInteger());
-
+							
+							myself.setProperty("accident", acidentes[x]);
 							if(this.equal(aci,next))
 							{
-								acidente=true;
+								myself.setProperty("accident", acidentes[x]);
+								IGoal check = createGoal("check");
+								check.getParameter("target").setValue(acidentes[x]);
+								/*
+//								acidente=true;
 
 								myself.setProperty("accident", acidentes[x]);
 
 								IGoal check = createGoal("check");
 								check.getParameter("target").setValue(acidentes[x]);
 
-								dispatchSubgoal(check);
+								//dispatchSubgoal(check);
+								 */
+								 
 							}
 						}
 					}	
 
-					if(!acidente){
+//					if(!acidente){
 						int md= 0;
 						if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
 							if(mypos.getXAsInteger() < next.x)
@@ -282,7 +294,7 @@ public class GoPlanEnv extends Plan
 						SyncResultListener srl	= new SyncResultListener();
 						env.performSpaceAction("go", params, srl); 
 						srl.waitForResult();
-					}
+					//}
 				}
 			}
 		}

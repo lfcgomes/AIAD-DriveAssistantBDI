@@ -295,9 +295,53 @@
                             <env:property name="position">new Vector2Double(0, 6)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
-                        
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(5, 0)</env:property>
+                            <env:property name="id">1</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"cinema"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(17, 9)</env:property>
+                            <env:property name="id">2</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"coffee"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(8, 11)</env:property>
+                            <env:property name="id">3</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"beach"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(12, 6)</env:property>
+                            <env:property name="id">4</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"park"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(12, 18)</env:property>
+                            <env:property name="id">5</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"museum"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(12, 0)</env:property>
+                            <env:property name="id">6</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"tribunal"</env:property>
+                            <env:property name="status">"nooooo"</env:property>
+                        </env:object>
                         <env:object type="accident">
                             <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(8, 6)</env:property>
                         </env:object>
                         
                     </env:objects>

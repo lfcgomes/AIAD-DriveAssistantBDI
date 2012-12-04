@@ -67,7 +67,8 @@
             <unique/>
              <creationcondition language="jcl">
                     ISpaceObject $target &amp;&amp;
-                    $beliefbase.myself.accident == $target
+                    $beliefbase.myself.accident == $target &amp;&amp;
+               		$target.state=="notavoid" 
             </creationcondition>
             <deliberation>
                 <inhibits ref="go"/>
@@ -127,5 +128,6 @@
 				<!-- <initialgoal ref="check"/> -->		
 			</goals>
 		</configuration>
+		
 	</configurations>
 </agent>
