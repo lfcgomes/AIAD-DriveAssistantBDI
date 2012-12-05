@@ -63,7 +63,7 @@ public class GoPlanEnv extends Plan
 		//Calculate de the new direction
 		String dir = null;
 		//Controlo de acidente para ele não andar para "cima" do acidente
-		//boolean acidente = false;
+		boolean acidente = false;
 
 		//Tem de passar por todos os pontos antes de terminar
 		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))){//&& !acidente){
@@ -223,7 +223,7 @@ public class GoPlanEnv extends Plan
 					IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 
 					List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),target);
-
+					System.out.println(nodes);
 					Node next = nodes.get(2);
 
 					for(int x=0;x<acidentes.length;x++){
@@ -238,9 +238,9 @@ public class GoPlanEnv extends Plan
 								myself.setProperty("accident", acidentes[x]);
 								IGoal check = createGoal("check");
 								check.getParameter("target").setValue(acidentes[x]);
-								/*
-//								acidente=true;
-
+								
+								acidente=true;
+/*
 								myself.setProperty("accident", acidentes[x]);
 
 								IGoal check = createGoal("check");
@@ -253,7 +253,7 @@ public class GoPlanEnv extends Plan
 						}
 					}	
 
-//					if(!acidente){
+					if(!acidente){
 						int md= 0;
 						if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
 							if(mypos.getXAsInteger() < next.x)
@@ -294,7 +294,7 @@ public class GoPlanEnv extends Plan
 						SyncResultListener srl	= new SyncResultListener();
 						env.performSpaceAction("go", params, srl); 
 						srl.waitForResult();
-					//}
+					}
 				}
 			}
 		}

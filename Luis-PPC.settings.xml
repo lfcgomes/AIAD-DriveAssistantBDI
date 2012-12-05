@@ -4,87 +4,56 @@
 		<p0:properties __ID="2" type="mpanel">
 			<p0:property __ID="3" type="tree"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <p0:TreeProperties xmlns:p0="typeinfo:jadex.base.gui.filetree" __ID="0">
-	<selectedNode>
-		<p0:NodePath __ID="1" entry="0">
-			<path>
-				<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="2" __len="1">
-					<entries>
-						<p1:String __ID="3">GPSBDI.application.xml</p1:String>
-					</entries>
-				</p1:String__1>
-			</path>
-		</p0:NodePath>
-	</selectedNode>
 	<expandedNodes>
-		<p0:NodePath__1 __ID="4" __len="1">
-			<entries>
-				<p0:NodePath __ID="5" entry="0">
-					<path>
-						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="6" __len="0"></p1:String__1>
-					</path>
-				</p0:NodePath>
-			</entries>
-		</p0:NodePath__1>
+		<p0:NodePath__1 __ID="1" __len="0"></p0:NodePath__1>
 	</expandedNodes>
 	<rootPathEntries>
-		<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="7" __len="1">
-			<entries>
-				<p1:String __ID="8">bin</p1:String>
-			</entries>
-		</p1:String__1>
+		<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="2" __len="0"></p1:String__1>
 	</rootPathEntries>
 </p0:TreeProperties>
 ]]></p0:property>
 			<p0:properties __ID="4" type="mic">
 				<p0:property __ID="5" type="BDI Agent">true</p0:property>
-				<p0:property __ID="6" type="BPMN Process">true</p0:property>
-				<p0:property __ID="7" type="BDI Capability">true</p0:property>
-				<p0:property __ID="8" type="Application">true</p0:property>
-				<p0:property __ID="9" type="Component">true</p0:property>
-				<p0:property __ID="10" type="Micro Agent">true</p0:property>
+				<p0:property __ID="6" type="BDI Capability">true</p0:property>
+				<p0:property __ID="7" type="Application">true</p0:property>
+				<p0:property __ID="8" type="Component">true</p0:property>
+				<p0:property __ID="9" type="Micro Agent">true</p0:property>
 			</p0:properties>
 		</p0:properties>
-		<p0:properties __ID="11" type="spanel">
-			<p0:property __ID="12" type="model">bin\GPSBDI.application.xml</p0:property>
-			<p0:property __ID="13" type="ridurl">file:bin</p0:property>
-			<p0:property __ID="14" type="globalrid"></p0:property>
-			<p0:property __ID="15" type="config">Turistico</p0:property>
-			<p0:property __ID="16" type="startsuspended">false</p0:property>
-			<p0:property __ID="17" type="autogenerate">false</p0:property>
-			<p0:property __ID="18" type="number">1</p0:property>
-			<p0:property __ID="19" type="name">GPSBDI</p0:property>
+		<p0:properties __ID="10" type="spanel">
+			<p0:property __ID="11" type="model">bin\GPSBDI.application.xml</p0:property>
+			<p0:property __ID="12" type="ridurl">file:bin</p0:property>
+			<p0:property __ID="13" type="globalrid"></p0:property>
+			<p0:property __ID="14" type="config">Directo</p0:property>
+			<p0:property __ID="15" type="startsuspended">false</p0:property>
+			<p0:property __ID="16" type="autogenerate">false</p0:property>
+			<p0:property __ID="17" type="number">1</p0:property>
+			<p0:property __ID="18" type="name">GPSBDI</p0:property>
 		</p0:properties>
 	</p0:properties>
-	<p0:properties __ID="20" type="library_service">
-		<p0:properties __ID="21" type="link">
-			<p0:properties __ID="22" type="a"></p0:properties>
-			<p0:properties __ID="23" type="b">
-				<p0:property __ID="24" type="lid_url">file:bin</p0:property>
-			</p0:properties>
-		</p0:properties>
+	<p0:properties __ID="19" type="chat">
+		<p0:property __ID="20" type="nickname">user_5b0</p0:property>
 	</p0:properties>
-	<p0:properties __ID="25" type="clockservice">
-		<p0:property __ID="26" type="type">system</p0:property>
-		<p0:property __ID="27" type="delta">100</p0:property>
-		<p0:property __ID="28" type="dilation">1.0</p0:property>
+	<p0:properties __ID="21" type="awa">
+		<p0:property __ID="22" type="fast">false</p0:property>
+		<p0:property __ID="23" type="autocreate">true</p0:property>
+		<p0:property __ID="24" type="autodelete">true</p0:property>
 	</p0:properties>
-	<p0:properties __ID="29" type="simulationservice">
-		<p0:property __ID="30" type="executing">true</p0:property>
+	<p0:properties __ID="25" type="simulationservice">
+		<p0:property __ID="26" type="executing">true</p0:property>
 	</p0:properties>
-	<p0:properties __ID="31" type="chat">
-		<p0:property __ID="32" type="nickname">user_5b0</p0:property>
+	<p0:properties __ID="27" type="securityservice">
+		<p0:property __ID="28" type="usepass">true</p0:property>
+		<p0:property __ID="29" type="password">b9dcbe27-87f</p0:property>
+		<p0:property __ID="30" type="trustedlan">false</p0:property>
+		<p0:property __ID="31" type="storepath">./keystore</p0:property>
+		<p0:property __ID="32" type="storepass">keystore</p0:property>
+		<p0:property __ID="33" type="keypass">keystore</p0:property>
 	</p0:properties>
-	<p0:properties __ID="33" type="securityservice">
-		<p0:property __ID="34" type="usepass">true</p0:property>
-		<p0:property __ID="35" type="password">b9dcbe27-87f</p0:property>
-		<p0:property __ID="36" type="trustedlan">false</p0:property>
-		<p0:property __ID="37" type="storepath">./keystore</p0:property>
-		<p0:property __ID="38" type="storepass">keystore</p0:property>
-		<p0:property __ID="39" type="keypass">keystore</p0:property>
+	<p0:properties __ID="34" type="clockservice">
+		<p0:property __ID="35" type="type">system</p0:property>
+		<p0:property __ID="36" type="delta">100</p0:property>
+		<p0:property __ID="37" type="dilation">1.0</p0:property>
 	</p0:properties>
-	<p0:properties __ID="40" type="awa">
-		<p0:property __ID="41" type="fast">false</p0:property>
-		<p0:property __ID="42" type="autocreate">true</p0:property>
-		<p0:property __ID="43" type="autodelete">true</p0:property>
-	</p0:properties>
+	<p0:properties __ID="38" type="library_service"></p0:properties>
 </p0:properties>

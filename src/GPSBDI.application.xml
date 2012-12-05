@@ -338,10 +338,19 @@
                             <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="accident">
-                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                            <env:property name="position">new Vector2Double(2, 5)</env:property>
                         </env:object>
                         <env:object type="accident">
-                            <env:property name="position">new Vector2Double(8, 6)</env:property>
+                            <env:property name="position">new Vector2Double(5, 5)</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(9, 5)</env:property>
+                        </env:object>
+                         <env:object type="accident">
+                            <env:property name="position">new Vector2Double(6, 7)</env:property>
+                        </env:object>
+                         <env:object type="accident">
+                            <env:property name="position">new Vector2Double(4, 7)</env:property>
                         </env:object>
                         
                     </env:objects>
