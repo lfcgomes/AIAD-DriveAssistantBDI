@@ -163,7 +163,7 @@ public class FillGas extends Plan {
 	}
 	public  List<Node> GetPath(IVector2 start,IVector2 end){
 
-		ShortestPath sp = new ShortestPath(Utils.map);
+		ShortestPath sp = new ShortestPath(BDIMap.map);
 		List<Node> nodes = sp.compute(new ShortestPath.Node(start.getXAsInteger(),start.getYAsInteger()),
 				new ShortestPath.Node(end.getXAsInteger(),end.getYAsInteger())
 				);

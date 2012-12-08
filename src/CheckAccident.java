@@ -35,6 +35,6 @@ public class CheckAccident extends Plan {
 	}
 
 	protected void setAccident(Node n) {
-        Utils.map[n.y][n.x] = 0;
+        BDIMap.map[n.y][n.x] = 0;
     }
 }

@@ -86,7 +86,7 @@
 			
 			<!-- Processes run on their own in the environment. -->
 			<env:processtypes>
-			    <env:processtype name="build_map" class="BuildMap" />
+			    <env:processtype name="BDImap" class="BDIMap" />
 			</env:processtypes>
 			
 			
@@ -242,7 +242,7 @@
                             <env:property name="position">new Vector2Double(0, 0)</env:property>
                         </env:object>
                         <env:object type="finaldestination">
-                            <env:property name="position">new Vector2Double(0, 6)</env:property>
+                            <env:property name="position">new Vector2Double(19, 17)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
                         
@@ -327,14 +327,14 @@
               			</env:object>
               			<env:object type="gas_station">
                             <env:property name="position">new Vector2Double(11, 4)</env:property>
-                   			<env:property name="gas" class="String">100</env:property>
+                   			<env:property name="gas" class="String">150</env:property>
                  			<env:property name="id" class="Integer">1</env:property>
                  		 	<env:property name="preconditions" class="String">""</env:property>
                  		 	<env:property name="space">$space</env:property>
               			</env:object>
               			<env:object type="gas_station">
                             <env:property name="position">new Vector2Double(11, 14)</env:property>
-                   			<env:property name="gas" class="String">50</env:property>
+                   			<env:property name="gas" class="String">100</env:property>
                  			<env:property name="id" class="Integer">1</env:property>
                  		 	<env:property name="preconditions" class="String">""</env:property>
                  		 	<env:property name="space">$space</env:property>
@@ -343,7 +343,7 @@
                         
                     </env:objects>
                     <env:processes>
-                        <env:process type="build_map"/>
+                        <env:process type="BDImap"/>
                     </env:processes>
 					<env:observers>
 						<env:observer name="Mundo" dataview="mapa" perspective="abstract"/>
@@ -428,7 +428,7 @@
                         
                     </env:objects>
                     <env:processes>
-                        <env:process type="build_map"/>
+                        <env:process type="BDImap"/>
                     </env:processes>
 					<env:observers>
 						<env:observer name="Mundo" dataview="mapa" perspective="abstract"/>
