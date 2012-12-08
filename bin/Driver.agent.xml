@@ -21,11 +21,7 @@
 		<import>jadex.extension.envsupport.math.*</import>
 		<import>jadex.bridge.IContextService</import>
     </imports>
-<!--	
-    <capabilities> 
-        <capability name="move" file="GPS" /> 
-   </capabilities> 
--->	
+
     <beliefs>
 		
         <!-- Environment. -->
@@ -51,40 +47,81 @@
         <belief name="time" class="ISpaceObject">
             <fact> $beliefbase.myself.getProperty("time")</fact>
         </belief>
+ 
+        <belief name="gas" class="ISpaceObject">
+            <fact> $beliefbase.myself.getProperty("gas")</fact>
+        </belief>
+        
+        <belief name="reserva" class="ISpaceObject">
+            <fact> $beliefbase.myself.getProperty("reserva")</fact>
+        </belief>
         
         <belief name="accident" class="ISpaceObject" exported="true" />
-		
+		<belief name="station" class="ISpaceObject" exported="true" />
     </beliefs>
 	
     <goals>
         
-        <achievegoal name="check" retry="false">
+        <achievegoal name="check" retry="false">           
+            <parameter name="type" class="String">
+                <value>
+                    $beliefbase.myself.tipo
+                </value>
+            </parameter>
             <parameter name="target" class="ISpaceObject">
                  <value>
                     $target
                 </value>
             </parameter>
-            <unique/>
-             <creationcondition language="jcl">
+            
+             <creationcondition>
                     ISpaceObject $target &amp;&amp;
                     $beliefbase.myself.accident == $target &amp;&amp;
-               		$target.state=="notavoid" 
+               		$target.state=="notavoid" &amp;&amp;
+               		$target.dummy=="no"
             </creationcondition>
             <deliberation>
                 <inhibits ref="go"/>
                 <inhibits ref="check"/>
             </deliberation>
+            
         </achievegoal>
-		
-		<!-- Goal for going to a specified position. -->
-		<achievegoal name="go">
-			<parameter name="pos" class="IVector2"/>
-			<dropcondition language="jcl">
+        
+        <achievegoal name="fill" >
+            <parameter name="pos" class="IVector2"/>
+            <parameter name="target" class="ISpaceObject">
+                 <value>
+                    $target
+                </value>
+            </parameter>        
+             <creationcondition>
+                    ISpaceObject $target &amp;&amp;
+                    $beliefbase.myself.accident == $target &amp;&amp;
+               		$target.state=="notavoid" &amp;&amp;
+               		$target.dummy=="yes" 
+            </creationcondition>
+            <dropcondition>
                 ISpaceObject $target &amp;&amp;
                 $beliefbase.myself.accident == $target &amp;&amp;
-                $target.state=="notavoid" 
+                $target.state=="notavoid" &amp;&amp;
+               	$target.dummy=="no" 
             </dropcondition>
-		</achievegoal> 
+        </achievegoal>
+        
+		
+		<!-- Goal for going to a specified position. -->
+		<performgoal name="go" retry = "false">
+			<parameter name="pos" class="IVector2"/>
+			 <dropcondition>
+                ISpaceObject $target &amp;&amp;
+                $beliefbase.myself.accident == $target &amp;&amp;
+                $target.state=="notavoid"     
+            </dropcondition>
+            <!--<dropcondition>
+                $beliefbase.myself.gas == $beliefbase.myself.reserva      
+            </dropcondition>-->
+		</performgoal> 
+		
 		
 
     </goals>
@@ -92,14 +129,32 @@
     <plans>
     
     <plan name="checkAccident">
+        <parameter name="type" class="String">
+			    <goalmapping ref="check.type"/>
+            </parameter>
             <parameter name="target" class="ISpaceObject">
                 <goalmapping ref="check.target"/>
             </parameter>
+			
             <body class="CheckAccident"/>
             <trigger>
                 <goal ref="check"/>
             </trigger>
         </plan>
+        
+     <plan name="fillGas">
+            <parameter name="pos" class="IVector2">
+ 				<goalmapping ref="fill.pos"/>
+			</parameter>
+			<parameter name="target" class="ISpaceObject">
+                <goalmapping ref="fill.target"/>
+            </parameter>
+            <body class="FillGas"/>
+            <trigger>
+                <goal ref="fill"/>
+            </trigger>
+        </plan> 
+    
     
 		<!-- Plan for going to a target position. -->
 		<plan name="go_plan">
@@ -124,7 +179,11 @@
             </beliefs> -->
 			<goals>
 				<!-- Initial goal for searching for garbage. -->
-				<initialgoal ref="go" />	
+				<initialgoal ref="go">
+				    <!--<parameter ref="pos">
+                        <value>new Vector2Double(1, 1)</value>
+                    </parameter>-->
+                 </initialgoal>	
 				<!-- <initialgoal ref="check"/> -->		
 			</goals>
 		</configuration>

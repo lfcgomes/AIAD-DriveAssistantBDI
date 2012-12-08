@@ -41,8 +41,6 @@ public class GoAction extends SimplePropertyObject implements ISpaceAction
 		ISpaceObject obj = space.getSpaceObject(oid);
 		IVector2 pos = (IVector2)obj.getProperty(Space2D.PROPERTY_POSITION);
 		
-		
-		
 		int px = pos.getXAsInteger();
 		int py = pos.getYAsInteger();
 		

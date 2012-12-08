@@ -32,7 +32,7 @@
 	
 		<!-- Declaration of a grid environment as space type. -->
 		<env:envspacetype name="gc2dspace" width="20" height="20" class="Grid2D">
-		
+		 <env:property name="weather">"sol"</env:property>
 			<!-- The objecttypes of this environment. -->
 			<env:objecttypes>
 			
@@ -45,13 +45,16 @@
 					</env:property>
 					<env:property name="vision_range">1</env:property>
 					<env:property name="position" event="true"/>
-					<env:property name="time">500</env:property>
-					<env:property name="accident" class="ISpaceObject"></env:property><!-- yes/no -->
-					
+					<env:property name="time">400</env:property>
+					<env:property name="gas">200</env:property>
+					<env:property name="reserva">30</env:property>
+					<env:property name="accident" class="ISpaceObject"></env:property>
+					<env:property name="tipo" class="String"></env:property>
 				</env:objecttype>
 				
 				<env:objecttype name="accident">
 					<env:property name="state" class="String">"notavoid"</env:property>
+					<env:property name="dummy" class="String">"no"</env:property>
 				</env:objecttype>
 				
 				<env:objecttype name="homebase">
@@ -65,6 +68,14 @@
                     <env:property name="id" class="Integer"></env:property>
                     <env:property name="preconditions" class="String">""</env:property>
                     <env:property name="type" class="String">""</env:property>
+                </env:objecttype>
+                
+                 <env:objecttype name="gas_station">
+                    <env:property name="status" class="String">"notfilled"</env:property>
+                    <env:property name="gas" class="String"></env:property>
+                    <env:property name="id" class="Integer"></env:property>
+                    <env:property name="preconditions" class="String">""</env:property>
+                    <env:property name="type" class="String">"Gas station"</env:property>
                 </env:objecttype>
                 
                 <env:objecttype name="cell">
@@ -186,9 +197,19 @@
                         <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/tribunal.png">
                             <env:drawcondition>$object.getProperty("type").equals("tribunal")</env:drawcondition>
                         </env:texturedrectangle>
-                        
-                        
-                    </env:drawable>    
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/golf.png">
+                            <env:drawcondition>$object.getProperty("type").equals("golf")</env:drawcondition>
+                        </env:texturedrectangle>
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/stadium.png">
+                            <env:drawcondition>$object.getProperty("type").equals("stadium")</env:drawcondition>
+                        </env:texturedrectangle>
+                    </env:drawable> 
+                      
+                     <env:drawable objecttype="gas_station" width="1" height="1">
+                        <env:texturedrectangle layer="2" height="1.5" width="1.5" imagepath="images/gas.png">
+                            
+                        </env:texturedrectangle>                        
+                    </env:drawable>  
                     
 					<!-- Draw tiles to have better perception of the world -->
 					<env:prelayers>
@@ -228,7 +249,7 @@
                         <env:object type="pointofinterest">
                             <env:property name="position">new Vector2Double(5, 0)</env:property>
                             <env:property name="id">1</env:property>
-                            <env:property name="preconditions">""</env:property>
+                            <env:property name="weather">""</env:property>
                             <env:property name="type">"cinema"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
@@ -261,12 +282,64 @@
                             <env:property name="preconditions">""</env:property>
                             <env:property name="type">"tribunal"</env:property>
                         </env:object>
-                        <env:object type="accident">
-                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(1, 15)</env:property>
+                            <env:property name="id">6</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"golf"</env:property>
+                        </env:object>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(18, 6)</env:property>
+                            <env:property name="id">6</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="type">"stadium"</env:property>
                         </env:object>
                         <env:object type="accident">
                             <env:property name="position">new Vector2Double(8, 6)</env:property>
                         </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(8, 0)</env:property>
+                        </env:object>
+                        
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(17, 15)</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(10, 19)</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(10, 17)</env:property>
+                        </env:object>
+                        
+                        <env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(2, 18)</env:property>
+                   			<env:property name="gas" class="String">200</env:property>
+                 			<env:property name="id" class="Integer">1</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(3, 4)</env:property>
+                   			<env:property name="gas" class="String">150</env:property>
+                 			<env:property name="id" class="Integer">1</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(11, 4)</env:property>
+                   			<env:property name="gas" class="String">100</env:property>
+                 			<env:property name="id" class="Integer">1</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(11, 14)</env:property>
+                   			<env:property name="gas" class="String">50</env:property>
+                 			<env:property name="id" class="Integer">1</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+                
                         
                     </env:objects>
                     <env:processes>
