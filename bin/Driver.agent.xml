@@ -39,10 +39,6 @@
 				// $beliefbase.myself.getProperty("position")
 			</fact>
  		</belief>
- 		<!-- Tipo de viagem   
- 		<belief name="directo" class="boolean">
-            <fact>false</fact>
-        </belief>	-->
         
         <belief name="time" class="ISpaceObject">
             <fact> $beliefbase.myself.getProperty("time")</fact>
@@ -57,7 +53,7 @@
         </belief>
         
         <belief name="accident" class="ISpaceObject" exported="true" />
-		
+		<belief name="station" class="ISpaceObject" exported="true" />
     </beliefs>
 	
     <goals>
@@ -73,6 +69,7 @@
                     $target
                 </value>
             </parameter>
+            
              <creationcondition>
                     ISpaceObject $target &amp;&amp;
                     $beliefbase.myself.accident == $target &amp;&amp;
@@ -82,7 +79,8 @@
             <deliberation>
                 <inhibits ref="go"/>
                 <inhibits ref="check"/>
-            </deliberation>        
+            </deliberation>
+            
         </achievegoal>
         
         <achievegoal name="fill" >
@@ -104,6 +102,10 @@
                 $target.state=="notavoid" &amp;&amp;
                	$target.dummy=="no" 
             </dropcondition>
+            <deliberation>
+                <inhibits ref="go"/>
+                <inhibits ref="fill"/>
+            </deliberation>
         </achievegoal>
         
 		

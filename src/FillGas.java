@@ -27,6 +27,7 @@ public class FillGas extends Plan {
 	@Override
 	public void body() {
 
+		
 		Grid2D env = (Grid2D)getBeliefbase().getBelief("env").getFact();
 
 		ISpaceObject dummy_accident = (ISpaceObject) this.getParameter("target").getValue();
@@ -36,7 +37,7 @@ public class FillGas extends Plan {
 
 		myself.setProperty("accident", "");
 		if(dummy_accident!=null)
-			dummy_accident.setProperty("dummy", "no");
+			dummy_accident.setProperty("state", "avoid");
 
 		ISpaceObject[] acidentes = env.getSpaceObjectsByType("accident");
 		ISpaceObject[] gas_stations = env.getSpaceObjectsByType("gas_station");
@@ -72,19 +73,21 @@ public class FillGas extends Plan {
 
 
 		System.out.println("Indo abastecer em "+station_pos);
+		
 		String dir=null;
 		boolean acidente=false;
 
 		while(!station_pos.equals(myself.getProperty(Space2D.PROPERTY_POSITION)))
 		{
 
+			
 			IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 
 			List<Node> nodes = GetPath(mypos,station_pos);
 
 			Node next = nodes.get(2);
 
-			for(int x=0;x<acidentes.length;x++){
+			for(int x=1;x<acidentes.length;x++){
 				//Só se o acidente não estiver evitado
 				if(acidentes[x].getProperty("state").equals("notavoid")){// && !acidente){ 
 
@@ -93,8 +96,6 @@ public class FillGas extends Plan {
 
 					if(GoPlanEnv.equal(aci,next))
 					{
-						//criar dropcondition no fill
-
 						System.out.println("Encontrei acidente");
 						myself.setProperty("accident", acidentes[x]);
 						IGoal check = createGoal("check");
@@ -105,7 +106,7 @@ public class FillGas extends Plan {
 					}
 				}
 			}
-		
+			
 			
 			if(!acidente){
 				int md= 0;

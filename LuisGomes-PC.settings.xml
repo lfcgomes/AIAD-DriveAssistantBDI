@@ -36,8 +36,8 @@
 </p0:TreeProperties>
 ]]></p0:property>
 			<p0:properties __ID="4" type="mic">
-				<p0:property __ID="5" type="BPMN Process">true</p0:property>
-				<p0:property __ID="6" type="BDI Agent">true</p0:property>
+				<p0:property __ID="5" type="BDI Agent">true</p0:property>
+				<p0:property __ID="6" type="BPMN Process">true</p0:property>
 				<p0:property __ID="7" type="BDI Capability">true</p0:property>
 				<p0:property __ID="8" type="Application">true</p0:property>
 				<p0:property __ID="9" type="Component">true</p0:property>

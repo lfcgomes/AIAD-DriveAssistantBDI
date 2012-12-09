@@ -31,16 +31,15 @@ public class GoPlanEnv extends Plan
 	/**
 	 *  The plan body.
 	 */
-	
+
 	public void body()
 	{
-		
 		Grid2D env = (Grid2D)getBeliefbase().getBelief("env").getFact();
 
 		//Get the position of the final destination and homebase, specified in the XML
 		ISpaceObject fd = env.getSpaceObjectsByType("finaldestination")[0];
 		ISpaceObject hm = env.getSpaceObjectsByType("homebase")[0];
-		
+
 		IVector2 target = (IVector2)fd.getProperty("position");
 		IVector2 ini = (IVector2)hm.getProperty("position");
 
@@ -55,11 +54,11 @@ public class GoPlanEnv extends Plan
 		else
 			myself.setProperty("position",ini);
 
-		while(!BDIMap.start){}
+
 		//Calculate de the new direction
 		String dir = null;
 		boolean acidente = false;
-		
+		boolean filled = false;
 		//Tem de passar por todos os pontos antes de terminar
 		while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION))){//&& !acidente){
 
@@ -67,11 +66,10 @@ public class GoPlanEnv extends Plan
 
 			/*verificar próxima visita, que será a mais próxima do ponto inicial*/
 			for(int x=0; x < locations.length; x++){
-				if(locations[x].getProperty("status").equals("notvisited") &&
-						(locations[x].getProperty("weather").equals("")||
-						 locations[x].getProperty("weather").equals((String)env.getProperty("weather"))
-						 ) 
-				  ){
+				if(locations[x].getProperty("status").equals("notvisited")&& 
+						(locations[x].getProperty("weather").equals("") || 
+								locations[x].getProperty("weather").equals(env.getProperty("weather")))
+						){
 
 					IVector2 actual = (IVector2)locations[x].getProperty("position");
 
@@ -86,7 +84,9 @@ public class GoPlanEnv extends Plan
 			ll.addAll(shorter.keySet());// buscando os valores no Map  
 			Collections.sort(ll);
 
+
 			ISpaceObject next_visit = null;
+
 
 			//verifica se anda tem pontos para visitar
 			if(!ll.isEmpty()){
@@ -94,23 +94,23 @@ public class GoPlanEnv extends Plan
 				ISpaceObject aux = (ISpaceObject)shorter.get(ll.get(0));
 				IVector2 posicao = (IVector2)aux.getProperty("position");
 
+
 				//Caminho entre o ponto de interesse a visitar
 				//e o destino
 				List<Node> nodes = GetPath(posicao, target);
-				
-				//total = distancia até ao ponto de interesse + distância do ponto de interesse até ao final
 				int total = nodes.size()+(Integer)ll.get(0);
-				
-				
-				/*verificação do tempo, caso tenha tempo visita a melhor,
-				 * senão vai para o desino final*/
+				System.out.println("tempo: "+myself.getProperty("time"));
+				/*verificação do tempo*/
 				if((Integer)myself.getProperty("time") >= total){
+
 					next_visit = (ISpaceObject)shorter.get(ll.get(0));
 					myself.setProperty("time", (Integer)myself.getProperty("time")-total);
+
 				}
 				else{
 					next_visit = fd;
 					System.out.println("Fiquei sem tempo, tenho de ir para o destino final");
+
 				}
 			}
 			else 
@@ -137,7 +137,7 @@ public class GoPlanEnv extends Plan
 						//Verifica se o próximo node tem algum acidente
 						//Isto simula visão
 
-						for(int x=0;x<acidentes.length;x++){
+						for(int x=1;x<acidentes.length;x++){
 							//Só se o acidente não estiver evitado
 							if(acidentes[x].getProperty("state").equals("notavoid")){// && !acidente){ 
 								IVector2 aci_pos = (IVector2)acidentes[x].getProperty("position");
@@ -152,7 +152,7 @@ public class GoPlanEnv extends Plan
 
 									acidente=true;
 
-					
+
 								}
 							}
 
@@ -163,10 +163,9 @@ public class GoPlanEnv extends Plan
 						ISpaceObject dummy_accident = (ISpaceObject)acidentes[0];
 						if((Integer)myself.getProperty("gas")-5 == (Integer)myself.getProperty("reserva"))
 						{
-							dummy_accident.setProperty("dummy", "yes");
+							//dummy_accident.setProperty("dummy", "yes");
 							if(dummy_accident.getProperty("state").equals("avoid")){
 								dummy_accident.setProperty("state", "notavoid");
-
 							}
 							IGoal fill = createGoal("fill");
 
@@ -175,64 +174,67 @@ public class GoPlanEnv extends Plan
 							fill.getParameter("target").setValue(dummy_accident);
 							myself.setProperty("gas", (Integer)myself.getProperty("gas")-5);
 
+
 						}
-						/*---------------------------------------------------------------------*/
+						else{
+							/*---------------------------------------------------------------------*/
 
-						myself.setProperty("gas", (Integer)myself.getProperty("gas")-5);
-
-						
-						if(!acidente){
-
-							int md= 0;
-							if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
-								if(mypos.getXAsInteger() < next.x)
-									md = 1; // DIREITA
-								else if(mypos.getXAsInteger() > next.x)
-									md = -1; //ESQUERDA
-							}
-							else
-								md = 0;
+							myself.setProperty("gas", (Integer)myself.getProperty("gas")-5);
 
 
-							switch(md){
-							case 1:
-								dir = GoAction.RIGHT;
-								break;
-							case -1:
-								dir = GoAction.LEFT;
-								break;
-							default:
-								if(mypos.getXAsInteger() == next.x){
-									if(mypos.getYAsInteger() < next.y) 
-										md = 1; //BAIXO
-									else if(mypos.getYAsInteger() > next.y)
-										md = -1; //CIMA
+							if(!acidente){
+
+								int md= 0;
+								if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
+									if(mypos.getXAsInteger() < next.x)
+										md = 1; // DIREITA
+									else if(mypos.getXAsInteger() > next.x)
+										md = -1; //ESQUERDA
 								}
+								else
+									md = 0;
+
+
 								switch(md){
 								case 1:
-									dir = GoAction.DOWN;
+									dir = GoAction.RIGHT;
 									break;
 								case -1:
-									dir = GoAction.UP;
+									dir = GoAction.LEFT;
+									break;
+								default:
+									if(mypos.getXAsInteger() == next.x){
+										if(mypos.getYAsInteger() < next.y) 
+											md = 1; //BAIXO
+										else if(mypos.getYAsInteger() > next.y)
+											md = -1; //CIMA
+									}
+									switch(md){
+									case 1:
+										dir = GoAction.DOWN;
+										break;
+									case -1:
+										dir = GoAction.UP;
+									}
 								}
+
+
+
+								//Inform what is the new direction and execute space action
+								Map params = new HashMap();
+								params.put(GoAction.DIRECTION, dir);
+								params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
+								SyncResultListener srl	= new SyncResultListener();
+								env.performSpaceAction("go", params, srl); 
+								srl.waitForResult();
+
 							}
 
 
 
-							//Inform what is the new direction and execute space action
-							Map params = new HashMap();
-							params.put(GoAction.DIRECTION, dir);
-							params.put(ISpaceAction.OBJECT_ID, env.getAvatar(getComponentDescription()).getId());
-							SyncResultListener srl	= new SyncResultListener();
-							env.performSpaceAction("go", params, srl); 
-							srl.waitForResult();
-
 						}
-
-
-
 					}
-
+					
 					next_visit.setProperty("status", "visited");
 					System.out.println("Visitei: "+ next_visit.getProperty("type"));
 
@@ -252,7 +254,7 @@ public class GoPlanEnv extends Plan
 
 						Node next = nodes.get(2);
 
-						for(int x=0;x<acidentes.length;x++){
+						for(int x=1;x<acidentes.length;x++){
 							//Só se o acidente não estiver evitado
 							if(acidentes[x].getProperty("state").equals("notavoid")){// && !acidente){ 
 
@@ -265,12 +267,13 @@ public class GoPlanEnv extends Plan
 									IGoal check = createGoal("check");
 									myself.setProperty("tipo","percurso");
 									check.getParameter("target").setValue(acidentes[x]);
-									
+
 									acidente=true;
 
 								}
 							}
 						}	
+
 
 
 						if(!acidente){
@@ -322,7 +325,11 @@ public class GoPlanEnv extends Plan
 
 		System.out.println("\nAcabou percurso!\n");
 		for(int x=0;x<locations.length;x++)
-			System.out.println(locations[x].getProperty("type")+ " " + locations[x].getProperty("status"));
+			if(locations[x].getProperty("status").equals("visited"))
+				System.out.println("Visitei: "+ locations[x].getProperty("type"));
+			else
+				System.out.println("Não Visitei: "+ locations[x].getProperty("type"));
+				
 	}
 
 
