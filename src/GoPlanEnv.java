@@ -96,7 +96,7 @@ public class GoPlanEnv extends Plan
 				//e o destino
 				List<Node> nodes = GetPath(posicao, target);
 				int total = nodes.size()+(Integer)ll.get(0);
-			
+				System.out.println("tempo: "+myself.getProperty("time"));
 				/*verificação do tempo*/
 				if((Integer)myself.getProperty("time") >= total){
 
@@ -242,7 +242,7 @@ public class GoPlanEnv extends Plan
 					System.out.println("Indo para o destino final");
 					while(!target.equals(myself.getProperty(Space2D.PROPERTY_POSITION)))
 					{
-
+						myself.setProperty("time", 0);
 						IVector2 mypos = (IVector2)myself.getProperty(Space2D.PROPERTY_POSITION);
 
 						List<Node> nodes = GetPath((IVector2) myself.getProperty(Space2D.PROPERTY_POSITION),target);
