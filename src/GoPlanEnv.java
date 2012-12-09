@@ -34,6 +34,7 @@ public class GoPlanEnv extends Plan
 	
 	public void body()
 	{
+		
 		Grid2D env = (Grid2D)getBeliefbase().getBelief("env").getFact();
 
 		//Get the position of the final destination and homebase, specified in the XML
@@ -54,7 +55,7 @@ public class GoPlanEnv extends Plan
 		else
 			myself.setProperty("position",ini);
 
-
+		while(!BDIMap.start){}
 		//Calculate de the new direction
 		String dir = null;
 		boolean acidente = false;

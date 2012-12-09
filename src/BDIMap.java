@@ -11,6 +11,8 @@ import jadex.extension.envsupport.math.Vector2Int;
 public class BDIMap extends SimplePropertyObject implements ISpaceProcess {
 
 	public static int[][] map;
+	public static LaunchConfig configDialog = null;
+	public static boolean start = false;
 	
     @Override
     public Object getProperty(String arg0) {
@@ -102,6 +104,20 @@ public class BDIMap extends SimplePropertyObject implements ISpaceProcess {
                 map[j][i] = temp;
             }
         }
+        
+        BDIMap.configDialog = new LaunchConfig(space);
+        
+        /*while (!Utils.start) {
+            System.out.flush();
+        }*/
+        //Utils.worldOptionsDialog = new WorldOptions(space);
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+            	BDIMap.configDialog.setVisible(true);
+            }
+        });
 
     }
 }
