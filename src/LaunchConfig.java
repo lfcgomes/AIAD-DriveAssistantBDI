@@ -97,7 +97,7 @@ public class LaunchConfig extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     	BDIMap.start = true;
-		space.setProperty("weather", comboBoxTempo.getSelectedItem().toString());
+		space.setProperty("weather", comboBoxTempo.getSelectedItem().toString().toLowerCase());
 		
     }//GEN-LAST:event_jButton1ActionPerformed
 
