@@ -10,9 +10,9 @@ public class ShortestPath {
         public int x;
         public int y;
         public Node parent;
-        public Double g = 0.0;	//
-        public Double h = 0.0;	//
-        public Double f = 0.0;	//
+        public Double g = 0.0;
+        public Double h = 0.0;
+        public Double f = 0.0;
 
         public Node(int x, int y) {
             this.x = x;
@@ -96,7 +96,7 @@ public class ShortestPath {
         List<Node> closedset = new ArrayList<Node>();
 
         while (!openset.isEmpty()) {
-            Node x = bestNode(openset, end);
+            Node x = getBestNode(openset, end);
             if (isGoal(x, end)) {
                 List<Node> list = new ArrayList<Node>();
                 list.add(0, x);
@@ -116,20 +116,20 @@ public class ShortestPath {
                     continue;
                 }
 
-                Double tentative_g_score = g(x) + h(x, y);
-                boolean tentative_is_better;
+                Double try_g_score = g(x) + h(x, y);
+                boolean best_try;
                 if (!contains(openset, y)) {
                     openset.add(y);
-                    tentative_is_better = true;
-                } else if (tentative_g_score < g(y)) {
-                    tentative_is_better = true;
+                    best_try = true;
+                } else if (try_g_score < g(y)) {
+                	best_try = true;
                 } else {
-                    tentative_is_better = false;
+                	best_try = false;
                 }
 
-                if (tentative_is_better) {
+                if (best_try) {
                     y.parent = x;
-                    y.g = tentative_g_score;
+                    y.g = try_g_score;
                     y.h = h(y, end);
                     y.f = g(y) + h(y, end);
                 }
@@ -154,7 +154,7 @@ public class ShortestPath {
         return false;
     }
 
-    private Node bestNode(List<Node> openset, Node end) {
+    private Node getBestNode(List<Node> openset, Node end) {
 
         Node ret = openset.get(0);
         Double retf = f(ret, end);
