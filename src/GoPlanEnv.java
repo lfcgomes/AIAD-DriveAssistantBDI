@@ -274,8 +274,26 @@ public class GoPlanEnv extends Plan
 							}
 						}	
 
+						/*------------ aqui é o dummy para enganar a drop condition-----------*/
+
+						ISpaceObject dummy_accident = (ISpaceObject)acidentes[0];
+						if((Integer)myself.getProperty("gas")-5 == (Integer)myself.getProperty("reserva"))
+						{
+							//dummy_accident.setProperty("dummy", "yes");
+							if(dummy_accident.getProperty("state").equals("avoid")){
+								dummy_accident.setProperty("state", "notavoid");
+							}
+							IGoal fill = createGoal("fill");
+
+							myself.setProperty("accident", dummy_accident);
+
+							fill.getParameter("target").setValue(dummy_accident);
+							myself.setProperty("gas", (Integer)myself.getProperty("gas")-5);
 
 
+						}
+						else{
+							myself.setProperty("gas", (Integer)myself.getProperty("gas")-5);
 						if(!acidente){
 							int md= 0;
 							if(mypos.getYAsInteger() == next.y){ //HORIZONTAL
@@ -319,7 +337,7 @@ public class GoPlanEnv extends Plan
 							srl.waitForResult();
 						}
 					}
-
+					}
 				}
 		}
 

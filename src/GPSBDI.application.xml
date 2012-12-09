@@ -377,71 +377,113 @@
 				<env:envspace name="mygc2dspace" type="gc2dspace">
 					<env:objects>
                         <env:object type="homebase">
-                            <env:property name="position">new Vector2Double(0, 0)</env:property>
+                            <env:property name="position">new Vector2Double(1, 1)</env:property>
                         </env:object>
-
                         <env:object type="finaldestination">
-                            <env:property name="position">new Vector2Double(0, 6)</env:property>
+                            <env:property name="position">new Vector2Double(20, 18)</env:property>
                             <env:property name="space">$space</env:property>
                         </env:object>
+                        
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(5, 0)</env:property>
+                            <env:property name="position">new Vector2Double(6, 1)</env:property>
                             <env:property name="id">1</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">"Chuva"</env:property>
                             <env:property name="type">"cinema"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(17, 9)</env:property>
+                            <env:property name="position">new Vector2Double(18, 10)</env:property>
                             <env:property name="id">2</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
                             <env:property name="type">"coffee"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(8, 11)</env:property>
+                            <env:property name="position">new Vector2Double(9, 12)</env:property>
                             <env:property name="id">3</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">"Sol"</env:property>
                             <env:property name="type">"beach"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(12, 6)</env:property>
+                            <env:property name="position">new Vector2Double(13, 7)</env:property>
                             <env:property name="id">4</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
                             <env:property name="type">"park"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(12, 18)</env:property>
+                            <env:property name="position">new Vector2Double(15, 19)</env:property>
                             <env:property name="id">5</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
                             <env:property name="type">"museum"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
                         <env:object type="pointofinterest">
-                            <env:property name="position">new Vector2Double(12, 0)</env:property>
+                            <env:property name="position">new Vector2Double(13, 1)</env:property>
                             <env:property name="id">6</env:property>
                             <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
                             <env:property name="type">"tribunal"</env:property>
-                            <env:property name="status">"nooooo"</env:property>
                         </env:object>
-                        <env:object type="accident">
-                            <env:property name="position">new Vector2Double(2, 5)</env:property>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(2, 16)</env:property>
+                            <env:property name="id">7</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
+                            <env:property name="type">"golf"</env:property>
                         </env:object>
-                        <env:object type="accident">
-                            <env:property name="position">new Vector2Double(5, 5)</env:property>
-                        </env:object>
-                        <env:object type="accident">
-                            <env:property name="position">new Vector2Double(9, 5)</env:property>
-                        </env:object>
-                         <env:object type="accident">
-                            <env:property name="position">new Vector2Double(6, 7)</env:property>
-                        </env:object>
-                         <env:object type="accident">
-                            <env:property name="position">new Vector2Double(4, 7)</env:property>
+                        <env:object type="pointofinterest">
+                            <env:property name="position">new Vector2Double(19, 7)</env:property>
+                            <env:property name="id">8</env:property>
+                            <env:property name="preconditions">""</env:property>
+                            <env:property name="status">"other"</env:property>
+                            <env:property name="weather">""</env:property>
+                            <env:property name="type">"stadium"</env:property>
                         </env:object>
                         
+                        <env:object type="accident">
+                             <env:property name="position">new Vector2Double(8, 5)</env:property>
+                            <env:property name="dummy" class="String">"yes"</env:property>
+                        </env:object>
+                        <env:object type="accident">
+                            <env:property name="position">new Vector2Double(3, 6)</env:property>
+                        </env:object>
+                        <env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(3, 19)</env:property>
+                   			<env:property name="gas" class="String">300</env:property>
+                 			<env:property name="id" class="Integer">1</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(4, 5)</env:property>
+                   			<env:property name="gas" class="String">300</env:property>
+                 			<env:property name="id" class="Integer">2</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(12, 5)</env:property>
+                   			<env:property name="gas" class="String">300</env:property>
+                 			<env:property name="id" class="Integer">3</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
+              			<env:object type="gas_station">
+                            <env:property name="position">new Vector2Double(12, 15)</env:property>
+                   			<env:property name="gas" class="String">300</env:property>
+                 			<env:property name="id" class="Integer">4</env:property>
+                 		 	<env:property name="preconditions" class="String">""</env:property>
+                 		 	<env:property name="space">$space</env:property>
+              			</env:object>
                     </env:objects>
                     <env:processes>
                         <env:process type="BDImap"/>
