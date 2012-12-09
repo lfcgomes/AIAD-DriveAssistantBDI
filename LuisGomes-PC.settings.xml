@@ -48,7 +48,7 @@
 			<p0:property __ID="12" type="model">bin\GPSBDI.application.xml</p0:property>
 			<p0:property __ID="13" type="ridurl">file:bin</p0:property>
 			<p0:property __ID="14" type="globalrid"></p0:property>
-			<p0:property __ID="15" type="config">Directo</p0:property>
+			<p0:property __ID="15" type="config">Turistico</p0:property>
 			<p0:property __ID="16" type="startsuspended">false</p0:property>
 			<p0:property __ID="17" type="autogenerate">false</p0:property>
 			<p0:property __ID="18" type="number">1</p0:property>
