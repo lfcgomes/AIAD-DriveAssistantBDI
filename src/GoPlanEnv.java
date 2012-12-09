@@ -66,7 +66,11 @@ public class GoPlanEnv extends Plan
 
 			/*verificar próxima visita, que será a mais próxima do ponto inicial*/
 			for(int x=0; x < locations.length; x++){
-				if(locations[x].getProperty("status").equals("notvisited")){
+				if(locations[x].getProperty("status").equals("notvisited") &&
+						(locations[x].getProperty("weather").equals("")||
+						 locations[x].getProperty("weather").equals((String)env.getProperty("weather"))
+						 ) 
+				  ){
 
 					IVector2 actual = (IVector2)locations[x].getProperty("position");
 
@@ -81,9 +85,7 @@ public class GoPlanEnv extends Plan
 			ll.addAll(shorter.keySet());// buscando os valores no Map  
 			Collections.sort(ll);
 
-
 			ISpaceObject next_visit = null;
-
 
 			//verifica se anda tem pontos para visitar
 			if(!ll.isEmpty()){
@@ -91,23 +93,23 @@ public class GoPlanEnv extends Plan
 				ISpaceObject aux = (ISpaceObject)shorter.get(ll.get(0));
 				IVector2 posicao = (IVector2)aux.getProperty("position");
 
-
 				//Caminho entre o ponto de interesse a visitar
 				//e o destino
 				List<Node> nodes = GetPath(posicao, target);
+				
+				//total = distancia até ao ponto de interesse + distância do ponto de interesse até ao final
 				int total = nodes.size()+(Integer)ll.get(0);
-				System.out.println("tempo: "+myself.getProperty("time"));
-				/*verificação do tempo*/
+				
+				
+				/*verificação do tempo, caso tenha tempo visita a melhor,
+				 * senão vai para o desino final*/
 				if((Integer)myself.getProperty("time") >= total){
-
 					next_visit = (ISpaceObject)shorter.get(ll.get(0));
 					myself.setProperty("time", (Integer)myself.getProperty("time")-total);
-
 				}
 				else{
 					next_visit = fd;
 					System.out.println("Fiquei sem tempo, tenho de ir para o destino final");
-
 				}
 			}
 			else 

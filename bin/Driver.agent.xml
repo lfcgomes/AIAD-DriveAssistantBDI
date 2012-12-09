@@ -57,7 +57,7 @@
         </belief>
         
         <belief name="accident" class="ISpaceObject" exported="true" />
-		<belief name="station" class="ISpaceObject" exported="true" />
+		
     </beliefs>
 	
     <goals>
@@ -73,7 +73,6 @@
                     $target
                 </value>
             </parameter>
-            
              <creationcondition>
                     ISpaceObject $target &amp;&amp;
                     $beliefbase.myself.accident == $target &amp;&amp;
@@ -83,8 +82,7 @@
             <deliberation>
                 <inhibits ref="go"/>
                 <inhibits ref="check"/>
-            </deliberation>
-            
+            </deliberation>        
         </achievegoal>
         
         <achievegoal name="fill" >
