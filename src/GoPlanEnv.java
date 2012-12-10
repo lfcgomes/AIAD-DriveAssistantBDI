@@ -54,7 +54,7 @@ public class GoPlanEnv extends Plan
 		else
 			myself.setProperty("position",ini);
 
-		while(!BDIMap.start){}
+		while(!BDIMap.start){System.out.println("");}
 		//Calculate de the new direction
 		String dir = null;
 		boolean acidente = false;
